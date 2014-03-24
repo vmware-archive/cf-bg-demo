@@ -1,0 +1,44 @@
+apply plugin: 'java'
+apply plugin: 'cloudfoundry'
+
+version = '1.0'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.cloudfoundry:cf-gradle-plugin:1.0.2'
+    }
+}
+
+task deploy << {
+}
+
+deploy.dependsOn 'zip', 'cf-deploy', 'cf-swap-deployed' 
+
+task zip(type: Zip) {
+    from projectDir
+    exclude '*.adoc'
+    exclude 'docs'
+    exclude 'build.gradle'
+    exclude '.gradle'
+    exclude "build"
+}
+
+cloudfoundry {
+    target = "https://api.run.pivotal.io"
+    space = "development"
+
+    file = file("${zip.archivePath}")
+    host = 'cf-bg-demo'
+    domain = 'cfapps.io'
+    memory = 512
+    instances = 1
+    variants = [ '-green', '-blue' ]
+    buildpack = 'https://github.com/cloudfoundry/java-buildpack'
+
+    trustSelfSignedCerts = true
+}
+
