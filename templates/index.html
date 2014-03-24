@@ -20,7 +20,7 @@
     }
     </style>
   </head>
-  <body class="blue" th:class="${color}">
-    <img src="img/kcap_blue.png" th:src="|img/kcap_${color}.png|"/>
+  <body class="${color}">
+    <img src="img/kcap_${color}.png"/>
   </body>
 </html>
