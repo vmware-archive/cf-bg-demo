@@ -1,4 +1,4 @@
-@Grab('org.thymeleaf:thymeleaf-spring4:2.1.2.RELEASE')
+@Grab('spring-boot-starter-thymeleaf')
 
 @Controller
 class WebApplication {
