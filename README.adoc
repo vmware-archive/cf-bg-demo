@@ -14,9 +14,9 @@ $ spring run app.groovy
 == Running on Cloud Foundry
 
 The application requires the latest version of the Java Buildpack, so we'll use that from GitHub.
-
+Cloud Foundry requires unique URLs, so use the '-n' flag to define a unique HOSTNAME and add a short alphanumeric suffix.
 ----
-$ cf push -m 512M -b https://github.com/cloudfoundry/java-buildpack --random-route cf-scale-boot
+$ $ cf push cf-scale-boot -m 512M -b https://github.com/cloudfoundry/java-buildpack -n cf-scale-boot-a123z
 ----
 
 == Doing a Blue-Green Demo
@@ -25,13 +25,13 @@ This application leverages the colors blue and green to demonstrate the dynamic 
 
 === Steps:
 
-. Push the application as-is, with +blue+ appended to the application name:
+. Push the application as-is, with +blue+ appended to the application name. Use '-n' to define a unique HOSTNAME:
 +
 ----
-$ cf push -m 512M -b https://github.com/cloudfoundry/java-buildpack --random-route cf-bg-demo-blue
+$ cf push cf-bg-demo-blue -m 512M -b https://github.com/cloudfoundry/java-buildpack -n cf-bg-demo-blue-a123z
 ----
 
-. Map a ``zero downtime'' route to the application. Cloud Foundry requires unique URLs, so add a short alphanumeric suffix to the HOSTNAME:
+. Map a ``zero downtime'' route to the application and use '-n' to define a unique HOSTNAME:
 +
 ----
 cf map-route cf-bg-demo-blue cfapps.io -n cf-bg-demo-a123z
@@ -45,10 +45,10 @@ Visit your application in the browser using your zero downtime route to see that
 model['color'] = 'green'
 ----
 
-. Push the modified application, with +green+ appended to the application name:
+. Push the modified application, with +green+ appended to the application name and again use '-n' to define a unique HOSTNAME:
 +
 ----
-$ cf push -m 512M -b https://github.com/cloudfoundry/java-buildpack --random-route cf-bg-demo-green
+$ cf push cf-bg-demo-green -m 512M -b https://github.com/cloudfoundry/java-buildpack -n cf-bg-demo-green-a123z
 ----
 
 . Map the ``zero downtime'' route to the modified application, including the HOSTNAME suffix you added in Step 2:
